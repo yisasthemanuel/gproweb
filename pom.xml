@@ -8,7 +8,7 @@
     <dependency>
 		<groupId>junit</groupId>
 		<artifactId>junit</artifactId>
-		<version>4.10</version>
+		<version>${junit.version}</version>
     </dependency>
     <dependency>
   		<groupId>net.sourceforge.jwebunit</groupId>
@@ -34,7 +34,7 @@
 	<dependency>
     	<groupId>org.jlobato.gpro</groupId>
     	<artifactId>gpro-utils</artifactId>
-    	<version>0.0.2.1</version>
+    	<version>${org.jlobato.gpro.version}</version>
 	</dependency>	
   </dependencies>
   
@@ -46,7 +46,9 @@
 	<java.build.version>1.8</java.build.version>
 	<java.source.version>1.8</java.source.version>
 	<maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>  	
+    <maven.compiler.target>1.8</maven.compiler.target>
+  	<org.jlobato.gpro.version>1.0.0.RELEASE</org.jlobato.gpro.version>
+	<junit.version>4.10</junit.version>  	
   </properties>
   
 </project>
