@@ -9,6 +9,7 @@
 		<groupId>junit</groupId>
 		<artifactId>junit</artifactId>
 		<version>${junit.version}</version>
+  		<scope>test</scope>
     </dependency>
     <dependency>
   		<groupId>net.sourceforge.jwebunit</groupId>
@@ -29,6 +30,7 @@
 	    <artifactId>jsoup</artifactId>
   		<version>${org.jsoup.version}</version>
 	</dependency>
+
 	
 	<!-- GproUtils -->
 	<dependency>
@@ -37,16 +39,13 @@
     	<version>${org.jlobato.gpro.version}</version>
 	</dependency>	
   </dependencies>
-  
    
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  	<org.jsoup.version>1.8.3</org.jsoup.version>
+  	<org.jsoup.version>1.17.2</org.jsoup.version>
   	<net.sourceforge.jwebunit.version>3.3</net.sourceforge.jwebunit.version>
-	<java.build.version>1.8</java.build.version>
-	<java.source.version>1.8</java.source.version>
-	<maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+	<maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
   	<org.jlobato.gpro.version>1.0.0.RELEASE</org.jlobato.gpro.version>
 	<junit.version>4.13.1</junit.version>  	
   </properties>

@@ -7,8 +7,17 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+/**
+ * The Class IDLoggedManagerParserManagerProfileLink.
+ */
 public class IDLoggedManagerParserManagerProfileLink implements IDLoggedManagerParser {
 
+	/**
+	 * Gets the ID logger manager.
+	 *
+	 * @param htmlSource the html source
+	 * @return the ID logger manager
+	 */
 	@Override
 	public String getIDLoggerManager(String htmlSource) {
 		String result = null;

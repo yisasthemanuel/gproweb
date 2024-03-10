@@ -9,77 +9,54 @@ import org.jlobato.gpro.web.xbean.ManagerHistoryXBean;
 import net.sourceforge.jwebunit.junit.WebTester;
 
 /**
- * 
- * @author 
+ * The Class GPROWebSession.
  *
+ * @author 
  */
 public class GPROWebSession {
 	
-	/**
-	 * 
-	 */
-	private static final String SUBMIT_BUTTON_LABEL = "Submit2";
+	/** The Constant SUBMIT_BUTTON_LABEL. */
+	private static final String SUBMIT_BUTTON_LABEL = "LogonFake";
 
-	/**
-	 * 
-	 */
+	/** The Constant LOGIN_FIELD_NAME. */
 	private static final String LOGIN_FIELD_NAME = "textLogin";
 
-	/**
-	 * 
-	 */
+	/** The Constant PASSWORD_FIELD_NAME. */
 	private static final String PASSWORD_FIELD_NAME = "textPassword";
 
-	/**
-	 * 
-	 */
+	/** The tester. */
 	protected WebTester tester;
 	
-	/**
-	 * 
-	 */
+	/** The new style. */
 	private boolean newStyle = false;
 	
-	/**
-	 * 
-	 */
+	/** The url. */
 	private String url;
 	
-	/**
-	 * 
-	 */
+	/** The username. */
 	private String username;
 	
-	/**
-	 * 
-	 */
+	/** The password. */
 	private String password;
 	
-	/**
-	 * 
-	 */
+	/** The id manager. */
 	private String idManager;
 
-	/**
-	 * 
-	 */
+	/** The logged. */
 	private boolean logged;
 
-	/**
-	 * 
-	 */
+	/** The Constant MANAGER_PAGE_PATTERN. */
 	public static final String MANAGER_PAGE_PATTERN = "https://www.gpro.net/gb/ManagerProfile.asp?IDM={0}";
 
-	/**
-	 * 
-	 */
+	/** The Constant MANAGER_HISTORY_LINK_NAME. */
 	public static final String MANAGER_HISTORY_LINK_NAME = "lnkmanhistory";
 	
 	/**
-	 * 
-	 * @param url
-	 * @param username
-	 * @param password
+	 * Instantiates a new GPRO web session.
+	 *
+	 * @param url the url
+	 * @param username the username
+	 * @param password the password
 	 */
 	public GPROWebSession(String url, String username, String password) {
 		super();
@@ -91,7 +68,7 @@ public class GPROWebSession {
 	
 	
 	/**
-	 * 
+	 * Login.
 	 */
 	public void login() {
 		//TODO Si falla al hacer login, devolvemos una sesión inválida
@@ -100,7 +77,7 @@ public class GPROWebSession {
 		}
 		tester.setScriptingEnabled(false);
 		tester.beginAt(this.url);
-		tester.assertButtonPresent(SUBMIT_BUTTON_LABEL);
+		tester.assertSubmitButtonPresent(SUBMIT_BUTTON_LABEL);
 		
 		tester.setTextField(LOGIN_FIELD_NAME, this.username);
 		tester.setTextField(PASSWORD_FIELD_NAME, this.password);
@@ -120,41 +97,46 @@ public class GPROWebSession {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * Checks if is new style.
+	 *
+	 * @return true, if is new style
 	 */
 	public boolean isNewStyle() {
 		return newStyle;
 	}
 
 	/**
-	 * 
-	 * @return
+	 * Gets the username.
+	 *
+	 * @return the username
 	 */
 	public String getUsername() {
 		return username;
 	}
 
 	/**
-	 * Si ya está la sesión creada o no
-	 * 
-	 * @return
+	 * Si ya está la sesión creada o no.
+	 *
+	 * @return true, if is logged
 	 */
 	public boolean isLogged() {
 		return logged;
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Gets the id manager.
+	 *
+	 * @return the id manager
 	 */
 	public String getIdManager() {
 		return idManager;
 	}
 	
 	/**
-	 * 
-	 * @param idManager
+	 * Gets the manager history.
+	 *
+	 * @param idManager the id manager
+	 * @return the manager history
 	 */
 	public List<ManagerHistoryXBean> getManagerHistory(String idManager) {
 		//TODO - Manejo de excepciones
@@ -174,7 +156,7 @@ public class GPROWebSession {
 	}
 	
 	/**
-	 * 
+	 * Logout.
 	 */
 	public void logout() {
 		if (!isLogged()) {

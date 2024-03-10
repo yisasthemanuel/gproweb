@@ -5,15 +5,16 @@ import java.util.List;
 import org.jlobato.gpro.web.xbean.ManagerHistoryXBean;
 
 /**
- * 
- * @author 
+ * A factory for creating GPROWebSession objects.
  *
+ * @author 
  */
 public class GPROWebSessionFactory {
 	
 	/**
-	 * 
-	 * @return
+	 * Gets the GPRO web session.
+	 *
+	 * @return the GPRO web session
 	 */
 	public static GPROWebSession getGPROWebSession() {
 		//TODO ver cómo manejar las propiedades de conexión
@@ -22,6 +23,11 @@ public class GPROWebSessionFactory {
 		return result;
 	}
 	
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		GPROWebSession session = GPROWebSessionFactory.getGPROWebSession();
 		

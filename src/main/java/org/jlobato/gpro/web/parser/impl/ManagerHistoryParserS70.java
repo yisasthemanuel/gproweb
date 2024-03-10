@@ -12,8 +12,17 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+/**
+ * The Class ManagerHistoryParserS70.
+ */
 public class ManagerHistoryParserS70 implements ManagerHistoryParser {
 
+	/**
+	 * Gets the manager history info.
+	 *
+	 * @param htmlSource the html source
+	 * @return the manager history info
+	 */
 	@Override
 	public List<ManagerHistoryXBean> getManagerHistoryInfo(String htmlSource) {
 		//Si está el link entonces le damos al parseo de la tabla
