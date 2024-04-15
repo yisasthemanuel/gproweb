@@ -11,6 +11,8 @@
 		<version>${junit.version}</version>
   		<scope>test</scope>
     </dependency>
+    
+    <!-- JWebUnit para navegar por la web y validar las páginas antes de parsearlas -->
     <dependency>
   		<groupId>net.sourceforge.jwebunit</groupId>
   		<artifactId>jwebunit-core</artifactId>
@@ -23,7 +25,16 @@
   		<version>${net.sourceforge.jwebunit.version}</version>
   		<scope>runtime</scope>
 	</dependency>
-  	<!-- JSOUP -->
+	
+    <!-- SeleniumHQ como otra forma de navegar por la web y validar las páginas antes de parsearlas -->
+    <!-- https://github.com/SeleniumHQ/seleniumhq.github.io -->
+	<dependency>
+		<groupId>org.seleniumhq.selenium</groupId>
+		<artifactId>selenium-java</artifactId>
+		<version>${seleniumhq.java.version}</version>
+	</dependency>
+	
+  	<!-- JSOUP para parseo de html -->
 	<!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
 	<dependency>
 	    <groupId>org.jsoup</groupId>
@@ -32,22 +43,47 @@
 	</dependency>
 
 	
-	<!-- GproUtils -->
+	<!-- GproUtils para utilidades varias específicas del negocio -->
 	<dependency>
     	<groupId>org.jlobato.gpro</groupId>
     	<artifactId>gpro-utils</artifactId>
-    	<version>${org.jlobato.gpro.version}</version>
-	</dependency>	
+    	<version>${org.jlobato.gpro.utils.version}</version>
+	</dependency>
+	
+	<!-- Lombok -->
+	<dependency>
+		<groupId>org.projectlombok</groupId>
+		<artifactId>lombok</artifactId>
+		<version>${org.projectlombok.lombok.version}</version>
+		<scope>provided</scope>
+	</dependency>
+	
+	<!-- slf4j API -->
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-api</artifactId>
+		<version>${org.slf4j.slf4j-api.version}</version>
+	</dependency>
+	
+	<!-- l4j2 log -->
+	<dependency>
+	    <groupId>org.apache.logging.log4j</groupId>
+	    <artifactId>log4j-slf4j2-impl</artifactId>
+	    <version>${org.apache.logging.log4j.log4j-slf4j2-impl.version}</version>
+	</dependency>
   </dependencies>
-   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   	<org.jsoup.version>1.17.2</org.jsoup.version>
   	<net.sourceforge.jwebunit.version>3.3</net.sourceforge.jwebunit.version>
 	<maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
-  	<org.jlobato.gpro.version>1.0.0.RELEASE</org.jlobato.gpro.version>
-	<junit.version>4.13.1</junit.version>  	
+  	<org.jlobato.gpro.utils.version>1.0.2.RELEASE</org.jlobato.gpro.utils.version>
+	<junit.version>4.13.1</junit.version>
+	<seleniumhq.java.version>4.19.1</seleniumhq.java.version>
+	<org.projectlombok.lombok.version>1.18.32</org.projectlombok.lombok.version>
+	<org.slf4j.slf4j-api.version>2.0.7</org.slf4j.slf4j-api.version>
+	<org.apache.logging.log4j.log4j-slf4j2-impl.version>2.20.0</org.apache.logging.log4j.log4j-slf4j2-impl.version>
   </properties>
   
 </project>

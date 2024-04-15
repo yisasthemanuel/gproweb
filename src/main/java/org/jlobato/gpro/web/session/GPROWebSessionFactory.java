@@ -3,12 +3,16 @@ package org.jlobato.gpro.web.session;
 import java.util.List;
 
 import org.jlobato.gpro.web.xbean.ManagerHistoryXBean;
+import org.jlobato.gpro.web.xbean.TrackRecordSetXBean;
+
+import lombok.extern.log4j.Log4j2;
 
 /**
  * A factory for creating GPROWebSession objects.
  *
  * @author 
  */
+@Log4j2
 public class GPROWebSessionFactory {
 	
 	/**
@@ -18,9 +22,7 @@ public class GPROWebSessionFactory {
 	 */
 	public static GPROWebSession getGPROWebSession() {
 		//TODO ver cómo manejar las propiedades de conexión
-		GPROWebSession result = new GPROWebSession("https://www.gpro.net", "yisasthemanuel", "oxford");
-		result.login();
-		return result;
+		return new GPROWebSessionSeleniumHQ("https://gpro.net/gb/gpro.asp", "yisasthemanuel", "oxford");
 	}
 	
 	/**
@@ -31,17 +33,27 @@ public class GPROWebSessionFactory {
 	public static void main(String[] args) {
 		GPROWebSession session = GPROWebSessionFactory.getGPROWebSession();
 		
-		System.out.println("Logged in: " + session.isLogged());
-		System.out.println("New Style: " + session.isNewStyle());
-		System.out.println("Manager ID: " + session.getIdManager());
+		session.login();
+		
+		log.debug("Logged in: {}",  session.isLogged());
+		log.debug("New Style: {}", session.isNewStyle());
+		log.debug("Manager ID: {}", session.getIdManager());
 		List<ManagerHistoryXBean> managerHistory = session.getManagerHistory("52243");
-		System.out.println("Manager history: " + managerHistory);
+		log.debug("Manager history: {}", managerHistory);
 		
 		managerHistory = session.getManagerHistory(session.getIdManager());
-		System.out.println("Logged Manager history: " + managerHistory);
+		log.debug("Logged Manager history: {}", managerHistory);
+		
+		TrackRecordSetXBean trackRecordInfo = session.getTrackRecordsInfo("41");
+		log.debug("Track Record Info: {}", trackRecordInfo);
+		
+		trackRecordInfo = session.getTrackRecordsInfo("13");
+		log.debug("Track Record Info: {}", trackRecordInfo);
 		
 		session.logout();
-		System.out.println("Logged out. Now exiting...");
+		log.debug("Logged out. Now exiting...");
+		
+		session.quit();
 	}
 
 }

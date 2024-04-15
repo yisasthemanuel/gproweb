@@ -6,19 +6,27 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jlobato.gpro.web.session.GPROWebSession;
+import org.jlobato.gpro.web.session.GPROWebSessionFactory;
 import org.jlobato.gpro.web.xbean.ManagerHistoryXBean;
+import org.jlobato.gpro.web.xbean.TrackRecordSetXBean;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * The Class GPROWebTestCase.
  */
+@Slf4j
 public class GPROWebTestCase {
+	
+	/** The session. */
 	static GPROWebSession session;
 	
+	/** The logger. */
 	Log logger = LogFactory.getLog(getClass());
 	
 	/**
@@ -26,7 +34,7 @@ public class GPROWebTestCase {
 	 */
 	@BeforeClass
 	public static void beforeAllTests() {
-		session = new GPROWebSession("https://www.gpro.net", "yisasthemanuel", "oxford");
+		session = GPROWebSessionFactory.getGPROWebSession();
 		session.login();
 	}
 	
@@ -134,10 +142,48 @@ public class GPROWebTestCase {
 	}
 	
 	/**
+	 * Test track records.
+	 */
+	@Test
+	public void testTrackRecords() {
+		log.info("testTrackRecords");
+		GPROWebSession theSession = getSession();
+		//Brno es el circuito con ID 41
+		TrackRecordSetXBean result = theSession.getTrackRecordsInfo("41");
+		Assert.assertNotNull(result);
+		//Qualy best lap dry
+		Assert.assertNotNull(result.getQualyRecordDry());
+		Assert.assertEquals("Mikko Suhonen", result.getQualyRecordDry().getManagerName());
+		Assert.assertEquals("16", result.getQualyRecordDry().getRace());
+		Assert.assertEquals("04/12/2018", result.getQualyRecordDry().getDate());
+		
+		//Race best lap dry
+		Assert.assertNotNull(result.getRaceRecordDry());
+		Assert.assertEquals("Carlos Esparza", result.getRaceRecordDry().getManagerName());
+		Assert.assertEquals("73", result.getRaceRecordDry().getSeason());
+		Assert.assertEquals("+ 0.823", result.getRaceRecordDry().getGap());
+		Assert.assertEquals("445982", result.getRaceRecordDry().getIdManagerGpro());
+		
+		//Qualy best lap wet
+		Assert.assertNotNull(result.getQualyRecordWet());
+		Assert.assertEquals("1:52.336", result.getQualyRecordWet().getLapTime());
+		Assert.assertEquals("Master - 3", result.getQualyRecordWet().getGroup());
+		Assert.assertEquals("52243", result.getQualyRecordWet().getIdManagerGpro());
+		
+		//Race best lap wet
+		Assert.assertNotNull(result.getRaceRecordWet());
+		Assert.assertEquals("Daniel Woodhouse", result.getRaceRecordWet().getManagerName());
+		Assert.assertEquals("55", result.getRaceRecordWet().getSeason());
+		Assert.assertEquals("+ 4.497", result.getRaceRecordWet().getGap());
+		Assert.assertEquals("335582", result.getRaceRecordWet().getIdManagerGpro());
+	}
+	
+	/**
 	 * Logout.
 	 */
 	@AfterClass
 	public static void logout() {
+		log.debug("Logout");
 		session.logout();
 	}
 

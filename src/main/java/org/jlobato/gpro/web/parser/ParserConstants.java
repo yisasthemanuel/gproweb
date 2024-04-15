@@ -3,15 +3,29 @@ package org.jlobato.gpro.web.parser;
 /**
  * The Interface ParserConstants.
  */
-public interface ParserConstants {
+public class ParserConstants {
+	
+	/**
+	 * Instantiates a new parser constants.
+	 */
+	private ParserConstants() {
+	}
 
 	/** The table html tag. */
-	String TABLE_HTML_TAG = "table";
+	public static final String TABLE_HTML_TAG = "table";
 	
 	/** The html table row tag. */
-	String HTML_TABLE_ROW_TAG = "tr";
+	public static final String HTML_TABLE_ROW_TAG = "tr";
 	
 	/** The html table column tag. */
-	String HTML_TABLE_COLUMN_TAG = "td";
+	public static final String HTML_TABLE_COLUMN_TAG = "td";
 
+	/** The link tag. */
+	public static final String HTML_LINK_TAG = "a";
+
+	/** The href attr tag. */
+	public static final String HREF_ATTR_TAG = "href";
+
+	/** The button html tag. */
+	public static final String BUTTON_HTML_TAG = "button";
 }

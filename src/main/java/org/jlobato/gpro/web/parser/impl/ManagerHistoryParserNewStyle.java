@@ -34,10 +34,9 @@ public class ManagerHistoryParserNewStyle implements ManagerHistoryParser {
 		//La fila de los nombres de las columnas no nos interesa
 		rows.remove(0);
 		
-		List<ManagerHistoryXBean> result = new ArrayList<ManagerHistoryXBean>();
+		List<ManagerHistoryXBean> result = new ArrayList<>();
 		for (Element row : rows) {
 			Elements datos = row.getElementsByTag(ParserConstants.HTML_TABLE_COLUMN_TAG);
-			System.out.println("datos: " + datos.html());
 			//Season
 			String season = datos.get(0).text();
 			//Group

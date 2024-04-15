@@ -54,41 +54,6 @@ public class ManagerHistoryXBean {
 	}
 	
 	/**
-	 * Instantiates a new manager history X bean.
-	 *
-	 * @param season the season
-	 * @param group the group
-	 * @param tyres the tyres
-	 * @param position the position
-	 * @param wins the wins
-	 * @param podiums the podiums
-	 * @param poles the poles
-	 * @param fastestLaps the fastest laps
-	 * @param points the points
-	 * @param races the races
-	 * @param cup the cup
-	 * @param money the money
-	 * @param obr the obr
-	 */
-	public ManagerHistoryXBean(String season, String group, String tyres, String position, String wins, String podiums,
-			String poles, String fastestLaps, String points, String races, String cup, String money, String obr) {
-		this();
-		this.season = season;
-		this.group = group;
-		this.tyres = tyres;
-		this.position = position;
-		this.wins = wins;
-		this.podiums = podiums;
-		this.poles = poles;
-		this.fastestLaps = fastestLaps;
-		this.points = points;
-		this.races = races;
-		this.cup = cup;
-		this.money = money;
-		this.obr = obr;
-	}
-
-	/**
 	 * Gets the season.
 	 *
 	 * @return the season

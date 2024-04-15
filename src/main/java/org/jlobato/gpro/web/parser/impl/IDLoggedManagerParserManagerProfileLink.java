@@ -21,21 +21,20 @@ public class IDLoggedManagerParserManagerProfileLink implements IDLoggedManagerP
 	@Override
 	public String getIDLoggerManager(String htmlSource) {
 		String result = null;
-		
+
 		Document doc = Jsoup.parse(htmlSource);
 		Elements links = doc.select("a[href]");
 		boolean countryStats = false;
 		for (Element link : links) {
-			if (countryStats) {
-				if (link.attr("href").contains("ManagerProfile")) {
-					result = GPROUtils.getIDManagerFromLink(link.attr("href"));
-					countryStats = false;
-					break;
-				}
+			if (countryStats && (link.attr("href").contains("ManagerProfile"))) {
+				result = GPROUtils.getIDManagerFromLink(link.attr("href"));
+				break;
+
 			}
-			if (link.attr("href").contains("Stats") && link.attr("href").contains("type")) countryStats = true;
-        }
-		
+			if (link.attr("href").contains("Stats") && link.attr("href").contains("type"))
+				countryStats = true;
+		}
+
 		return result;
 	}
 

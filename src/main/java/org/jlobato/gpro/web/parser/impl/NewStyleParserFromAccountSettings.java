@@ -3,15 +3,12 @@ package org.jlobato.gpro.web.parser.impl;
 import org.jlobato.gpro.web.parser.NewStyleParser;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
+import org.jsoup.nodes.Element;
 
 /**
- * The Class NewStyleParserDivBoxy.
+ * The Class NewStyleParserFromAccountSettings.
  */
-public class NewStyleParserDivBoxy implements NewStyleParser {
-
-	/** The Constant DIV_BOXY. */
-	private static final String DIV_BOXY = "div.boxy";
+public class NewStyleParserFromAccountSettings implements NewStyleParser {
 
 	/**
 	 * Checks if is new style.
@@ -21,14 +18,9 @@ public class NewStyleParserDivBoxy implements NewStyleParser {
 	 */
 	@Override
 	public boolean isNewStyle(String htmlSource) {
-		boolean result = true;
-		
 		Document doc = Jsoup.parse(htmlSource);
-		
-		Elements divsBoxy = doc.select(DIV_BOXY);
-		result = !divsBoxy.isEmpty();
-
-		return result;
+		Element newStyleCheckbox = doc.select("input[name=cbNewOffice]").first();
+		return (newStyleCheckbox != null) && newStyleCheckbox.hasAttr("checked");
 	}
 
 }
