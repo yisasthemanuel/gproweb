@@ -30,6 +30,8 @@ import lombok.extern.slf4j.Slf4j;
 public class GPROWebSessionSeleniumHQ implements GPROWebSession {
 	
 	
+	private static final String CSS_AGREE_BUTTON = ".css-rznlvj";
+
 	private static final int DEFAULT_IMPLICIT_WAIT = 2;
 
 	/** The Constant AGREE_BUTTON. */
@@ -110,15 +112,7 @@ public class GPROWebSessionSeleniumHQ implements GPROWebSession {
 			// 2 Sale el modal de las cookies. Buscamos el botón con el texto "AGREE" y hacemos click sobre él
 			//   para desbloquear los campos de login. Como la URL que pedimos es la que está en inglés, no tenemos
 			//   que tener en cuenta el idioma
-			Iterator<WebElement> buttonsItetaror = this.driver.findElements(By.cssSelector(ParserConstants.BUTTON_HTML_TAG)).iterator();
-			boolean encontrado = false;
-			while (buttonsItetaror.hasNext() && !encontrado) {
-				WebElement button = buttonsItetaror.next();
-				if (AGREE_BUTTON.equals(button.getText())) {
-					encontrado = true;
-					button.click(); //Hacemos click sobre el boton de AGREE para poder acceder a los campos del login
-				}
-			}
+			driver.findElement(By.cssSelector(CSS_AGREE_BUTTON)).click();
 			
 			// 3 Aseguramos que está botón de logado antes de hacer el login, esperamos como máximo 3 segundos
 			WebElement loginButton = this.driver.findElement(By.name(SUBMIT_BUTTON_LABEL));
