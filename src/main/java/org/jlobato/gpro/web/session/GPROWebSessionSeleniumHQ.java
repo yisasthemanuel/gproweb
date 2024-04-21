@@ -3,11 +3,9 @@ package org.jlobato.gpro.web.session;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.time.Duration;
-import java.util.Iterator;
 import java.util.List;
 
 import org.jlobato.gpro.web.parser.GPROWebParserFactory;
-import org.jlobato.gpro.web.parser.ParserConstants;
 import org.jlobato.gpro.web.parser.TrackRecordParser;
 import org.jlobato.gpro.web.xbean.ManagerHistoryXBean;
 import org.jlobato.gpro.web.xbean.TrackRecordSetXBean;
@@ -26,17 +24,19 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * The Class GPROWebSessionSeleniumHQ.
  */
+
+/** The Constant log. */
 @Slf4j
 public class GPROWebSessionSeleniumHQ implements GPROWebSession {
 	
 	
+	/** The Constant CSS_AGREE_BUTTON. */
 	private static final String CSS_AGREE_BUTTON = ".css-rznlvj";
 
+	/** The Constant DEFAULT_IMPLICIT_WAIT. */
 	private static final int DEFAULT_IMPLICIT_WAIT = 2;
 
-	/** The Constant AGREE_BUTTON. */
-	private static final String AGREE_BUTTON = "AGREE";
-	
+	/** The Constant DRIVER_SERVICE. */
 	private static final ChromeDriverService DRIVER_SERVICE;
 	
 	static {
@@ -48,8 +48,7 @@ public class GPROWebSessionSeleniumHQ implements GPROWebSession {
 		try {
 			DRIVER_SERVICE.start();
 		} catch (IOException e) {
-			// TODO meter un buen log
-			e.printStackTrace();
+			log.error("Error al iniciar el servicio de Chrome", e);
 		}
 		
 		Runtime.getRuntime().addShutdownHook(new Thread(DRIVER_SERVICE::stop));
@@ -99,7 +98,7 @@ public class GPROWebSessionSeleniumHQ implements GPROWebSession {
 	 */
 	@Override
 	public void login() {
-		log.info("I'm logging");
+		log.info("Logging into GPRO");
 		//TODO Si falla al hacer login, devolvemos una sesión inválida
 		if (isLogged()) {
 			throw new IllegalStateException("You are already logged in");
@@ -157,11 +156,10 @@ public class GPROWebSessionSeleniumHQ implements GPROWebSession {
 			
 			// 14 Obtenemos el id del manager para el que se abre la sesión
 			this.idManager = GPROWebParserFactory.getIDLoggedManagerParser().getIDLoggerManager(this.driver.getPageSource());
+			log.info("Logged into GPRO. New style is: {}. Manager ID is: {} ", this.newStyle, this.idManager);
 		} catch (Exception e) {
-			//TODO Esto es demasiado drástico. Vemos cómo se puede cerrar la sesión
 			this.logged = false;
-			e.printStackTrace();
-			this.driver.quit();
+			log.error("Excepción durante el logado en GPRO", e);
 		}
 
 	}
@@ -214,9 +212,10 @@ public class GPROWebSessionSeleniumHQ implements GPROWebSession {
 	 */
 	@Override
 	public List<ManagerHistoryXBean> getManagerHistory(String theOtherManager) {
+		log.info("Trying to get Manager History for Manager with id {}", theOtherManager);
 		whenNotLogged("You are not logged in while trying to get manager history for ID " + theOtherManager);
 		
-		//TODO - Delegar en un objeto PageSourceHandler
+		//TODO - Delegar en un objeto URIComponentBuilder
 		String managerHistoryPage = MessageFormat.format(GPROWebSession.MANAGER_PAGE_PATTERN, theOtherManager);
 		this.driver.get(managerHistoryPage);
 		
@@ -236,11 +235,12 @@ public class GPROWebSessionSeleniumHQ implements GPROWebSession {
 	 */
 	@Override
 	public TrackRecordSetXBean getTrackRecordsInfo(String idTrack) {
+		log.info("Trying to get bests laps for track with id {}", idTrack);
 		whenNotLogged("You are not logged in while trying to get team records track with ID " + idTrack);
 		
 		TrackRecordSetXBeanBuilder builder = TrackRecordSetXBeanBuilder.newTrackRecordSetXBeanBuilder();
 		
-		//TODO - Delegar en un objeto PageSourceHandler
+		//TODO - Delegar en un objeto URIComponentBuilder
 		String teamQualyRecordsPage = MessageFormat.format(GPROWebSession.TEAM_Q_RECORDS_PAGE_PATTERN, idTrack);
 		this.driver.get(teamQualyRecordsPage);
 		
@@ -249,7 +249,7 @@ public class GPROWebSessionSeleniumHQ implements GPROWebSession {
 		//Parseamos y obtenermos la información		
 		TrackRecordXBean dryQualyRecord = GPROWebParserFactory.getTrackRecordParser().getTrackRecordInfo(this.driver.getPageSource());
 		
-		//TODO - Delegar en un objeto PageSourceHandler
+		//TODO - Delegar en un objeto URIComponentBuilder
 		String teamRaceRecordsPage = MessageFormat.format(GPROWebSession.TEAM_R_RECORDS_PAGE_PATTERN, idTrack);
 		this.driver.get(teamRaceRecordsPage);
 		
@@ -258,7 +258,7 @@ public class GPROWebSessionSeleniumHQ implements GPROWebSession {
 		//Parseamos y obtenermos la información		
 		TrackRecordXBean dryRaceRecord = GPROWebParserFactory.getTrackRecordParser().getTrackRecordInfo(this.driver.getPageSource());
 
-		//TODO - Delegar en un objeto PageSourceHandler
+		//TODO - Delegar en un objeto URIComponentBuilder
 		String teamQualyRecordsWetPage = MessageFormat.format(GPROWebSession.TEAM_Q_WET_RECORDS_PAGE_PATTERN, idTrack);
 		this.driver.get(teamQualyRecordsWetPage);
 		
@@ -267,7 +267,7 @@ public class GPROWebSessionSeleniumHQ implements GPROWebSession {
 		//Parseamos y obtenermos la información		
 		TrackRecordXBean wetQualyRecord = GPROWebParserFactory.getTrackRecordParser().getTrackRecordInfo(this.driver.getPageSource());
 		
-		//TODO - Delegar en un objeto PageSourceHandler
+		//TODO - Delegar en un objeto URIComponentBuilder
 		String teamRaceRecordsWetPage = MessageFormat.format(GPROWebSession.TEAM_R_WET_RECORDS_PAGE_PATTERN, idTrack);
 		this.driver.get(teamRaceRecordsWetPage);
 		
@@ -282,7 +282,6 @@ public class GPROWebSessionSeleniumHQ implements GPROWebSession {
 			.withQualyRecordWet(wetQualyRecord)
 			.withRaceRecordWet(wetRaceRecord)
 			.build();
-		
 	}
 
 	/**
@@ -313,8 +312,8 @@ public class GPROWebSessionSeleniumHQ implements GPROWebSession {
 	 */
 	private void whenNotLogged(String message) {
 		//TODO - Pasar a una clase común (código repetido)
-		//TODO - Manejo de excepciones
 		if (!isLogged()) {
+			log.error("Trying to get information from invalid session");
 			throw new IllegalStateException(message);
 		}
 	}
