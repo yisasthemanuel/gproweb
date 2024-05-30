@@ -5,6 +5,7 @@
 Libería que obtiene información de la web de GPRO conectándose como un usuario y parseando la respuesta html a las peticiones enviadas. Información que obtiene en estos momentos:
 
 * Manager History de los managers que permitan acceder a su página de manager en GPRO.
+* Records del equipo en un circuito determinado. Se obtienen cuatro records: clasificación en seco, clasificación en mojado, carrera en seco y carrera en mojado.
 
 ## Desarrollo
 
@@ -32,6 +33,8 @@ $ ./mvnw clean install
 ```
 
 ## Changelog [ES]
+
+* **1.0.3 (30/05/2024)** - Se utiliza WebDriverManager para asegurar la correcta configuración del driver de Chrome a la hora de ejecutar la navegación por la web. Se configura el driver para que navegue sin generar interfaz gráfica (headless)
 
 * **1.0.2 (21/04/2024)** - Se utiliza SeleniumHQ para obtener los datos de la web de GPRO. Se añade el método getTrackRecordsInfo para obtener los records de un circuito. Se obtienen cuatro records por cada circuito: clasificación en seco, carrera en seco, clasificación en mojado, carrera en mojado
 
