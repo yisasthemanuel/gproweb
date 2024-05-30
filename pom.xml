@@ -34,6 +34,13 @@
 		<version>${seleniumhq.java.version}</version>
 	</dependency>
 	
+    <!-- WebDriverManger para SeleniumHQ, detección y gestión automática del driver del navegador -->
+	<dependency>
+	    <groupId>io.github.bonigarcia</groupId>
+	    <artifactId>webdrivermanager</artifactId>
+	    <version>5.8.0</version>
+	</dependency>
+	
   	<!-- JSOUP para parseo de html -->
 	<!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
 	<dependency>
@@ -41,7 +48,6 @@
 	    <artifactId>jsoup</artifactId>
   		<version>${org.jsoup.version}</version>
 	</dependency>
-
 	
 	<!-- GproUtils para utilidades varias específicas del negocio -->
 	<dependency>

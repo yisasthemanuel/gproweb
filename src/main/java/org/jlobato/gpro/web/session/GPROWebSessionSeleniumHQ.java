@@ -16,9 +16,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -39,7 +41,13 @@ public class GPROWebSessionSeleniumHQ implements GPROWebSession {
 	/** The Constant DRIVER_SERVICE. */
 	private static final ChromeDriverService DRIVER_SERVICE;
 	
+	/** The Constant DRIVER_SERVICE. */
+	private static final ChromeOptions DRIVER_OPTIONS;
+	
 	static {
+		//Lanzamos el setup antes de nada para asegurar que el driver de chrome está disponible para los tests
+		WebDriverManager.chromedriver().setup();
+		
 		DRIVER_SERVICE = new ChromeDriverService.Builder()
 			.withVerbose(false)
 			.usingAnyFreePort()
@@ -51,6 +59,11 @@ public class GPROWebSessionSeleniumHQ implements GPROWebSession {
 			log.error("Error al iniciar el servicio de Chrome", e);
 		}
 		
+		DRIVER_OPTIONS = new ChromeOptions();		
+		DRIVER_OPTIONS.addArguments("--headless"); //Para que no genere interfaz gráfica
+		DRIVER_OPTIONS.addArguments("--disable-gpu"); // Especifico para Windows, puede ser útil para otros sistemas operativos
+		
+		//Aseguramos que cuando se cierre la máquina virtual se pare el servicio de Chrome
 		Runtime.getRuntime().addShutdownHook(new Thread(DRIVER_SERVICE::stop));
 	}
 
@@ -88,7 +101,7 @@ public class GPROWebSessionSeleniumHQ implements GPROWebSession {
 		this.url = url;
 		this.username = username;
 		this.password = password;
-		this.driver = new ChromeDriver(DRIVER_SERVICE);
+		this.driver = new ChromeDriver(DRIVER_SERVICE, DRIVER_OPTIONS);
 		// Espera general para obtener un elemento de las páginas
 		this.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(DEFAULT_IMPLICIT_WAIT));
 	}
@@ -248,6 +261,7 @@ public class GPROWebSessionSeleniumHQ implements GPROWebSession {
 		waitForTeamRecordsTable(3);	    
 		//Parseamos y obtenermos la información		
 		TrackRecordXBean dryQualyRecord = GPROWebParserFactory.getTrackRecordParser().getTrackRecordInfo(this.driver.getPageSource());
+		log.info("Bests dry qualy laps for track with id {}: {}", idTrack, dryQualyRecord);
 		
 		//TODO - Delegar en un objeto URIComponentBuilder
 		String teamRaceRecordsPage = MessageFormat.format(GPROWebSession.TEAM_R_RECORDS_PAGE_PATTERN, idTrack);
@@ -257,6 +271,7 @@ public class GPROWebSessionSeleniumHQ implements GPROWebSession {
 		waitForTeamRecordsTable(3);		
 		//Parseamos y obtenermos la información		
 		TrackRecordXBean dryRaceRecord = GPROWebParserFactory.getTrackRecordParser().getTrackRecordInfo(this.driver.getPageSource());
+		log.info("Bests dry race laps for track with id {}: {}", idTrack, dryRaceRecord);
 
 		//TODO - Delegar en un objeto URIComponentBuilder
 		String teamQualyRecordsWetPage = MessageFormat.format(GPROWebSession.TEAM_Q_WET_RECORDS_PAGE_PATTERN, idTrack);
@@ -266,6 +281,7 @@ public class GPROWebSessionSeleniumHQ implements GPROWebSession {
 		waitForTeamRecordsTable(3);
 		//Parseamos y obtenermos la información		
 		TrackRecordXBean wetQualyRecord = GPROWebParserFactory.getTrackRecordParser().getTrackRecordInfo(this.driver.getPageSource());
+		log.info("Bests wet qualy laps for track with id {}: {}", idTrack, wetQualyRecord);
 		
 		//TODO - Delegar en un objeto URIComponentBuilder
 		String teamRaceRecordsWetPage = MessageFormat.format(GPROWebSession.TEAM_R_WET_RECORDS_PAGE_PATTERN, idTrack);
@@ -275,6 +291,7 @@ public class GPROWebSessionSeleniumHQ implements GPROWebSession {
 		waitForTeamRecordsTable(3);
 		//Parseamos y obtenermos la información		
 		TrackRecordXBean wetRaceRecord = GPROWebParserFactory.getTrackRecordParser().getTrackRecordInfo(this.driver.getPageSource());
+		log.info("Bests wet race laps for track with id {}: {}", idTrack, wetRaceRecord);
 		
 		return builder
 			.withQualyRecordDry(dryQualyRecord)
